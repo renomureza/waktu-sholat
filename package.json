@@ -1,0 +1,19 @@
+{
+  "name": "waktu-sholat-id",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "scrape": "node ."
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "node-libcurl": "^2.3.3",
+    "nodemon": "^2.0.15"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "data/*"
+    ]
+  }
+}
