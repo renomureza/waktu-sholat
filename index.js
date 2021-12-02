@@ -104,10 +104,7 @@ const getLocations = async () => {
 
 const main = async () => {
   const locations = await getLocations();
-  // because we must sleep after Jawa Barat
-  const splicedLocations = locations.slice(12);
-
-  for (const province of splicedLocations) {
+  for (const province of locations) {
     console.log("PROVINSI: ", province.name);
     for (const city of province.cities) {
       console.log("CITY", city.name);
