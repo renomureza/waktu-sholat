@@ -65,6 +65,14 @@ app.get("/waktu-sholat", async (req, res) => {
 
 app.all("*", (req, res) => res.status(404).send({ message: "not found" }));
 
+connect(process.env.MONGO_URL_CONNECTION)
+  .then((res) => {
+    console.log("mongodb connected");
+  })
+  .catch(() => {
+    console.log("mongodb failed");
+  });
+
 app.listen(config.PORT, () => {
   console.log(`server is running on port ${config.PORT}`);
   connect(process.env.MONGO_URL_CONNECTION)
