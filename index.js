@@ -8,14 +8,6 @@ const app = express();
 app.use(cors());
 app.disable("x-powered-by");
 
-connect(process.env.MONGO_URL_CONNECTION)
-  .then((res) => {
-    console.log("mongodb connected");
-  })
-  .catch(() => {
-    console.log("mongodb failed");
-  });
-
 const provinceSchema = new Schema({
   name: String,
   slug: String,
@@ -47,6 +39,7 @@ const PrayerTime = model("PrayerTime", prayerTimeSchema);
 
 app.get("/waktu-sholat", async (req, res) => {
   try {
+    await connect(process.env.MONGO_URL_CONNECTION);
     const { province, city } = req.query;
     const provinces = await Province.findOne({
       slug: province,
