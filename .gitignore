@@ -1,3 +1,4 @@
 node_modules
 cookie.txt
 .env
+.env_example

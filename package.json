@@ -1,7 +1,7 @@
 {
   "name": "waktu-sholat-id",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./src/index.js",
   "license": "MIT",
   "scripts": {
     "start": "node .",
@@ -10,14 +10,18 @@
     "refactor": "node ./scripts/refactor.js"
   },
   "dependencies": {
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "mongoose": "^6.0.15"
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "geo-tz": "^7.0.1",
+    "mongoose": "^6.2.6",
+    "morgan": "^1.10.0",
+    "winston": "^3.6.0"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.10",
-    "node-libcurl": "^2.3.3",
+    "node-libcurl": "^2.3.4",
     "nodemon": "^2.0.15"
   },
   "nodemonConfig": {
