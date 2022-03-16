@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "postinstall": "npx prisma migrate"
   },
   "dependencies": {
     "@prisma/client": "^3.11.0",
