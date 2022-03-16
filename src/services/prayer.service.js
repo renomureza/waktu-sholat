@@ -19,32 +19,21 @@ const getPrayerByLocation = async (provinceSlug, citySlug) => {
     city.coordinate.longitude
   )[0];
   const date = new Date(new Date().toLocaleString("en", { timeZone }));
-
-  // const pathToFile = path.resolve(
-  //   "src/data/refactored",
-  //   provinceSlug,
-  //   citySlug,
-  //   `${date.getFullYear()}.json`
-  // );
-
-  // const { times, ...province } = JSON.parse(await fs.readFile(pathToFile));
+  const fromDate = new Date(date.setDate(1));
+  const toDate = new Date(date.setMonth(date.getMonth() + 1));
 
   const times = await prismaClient.prayer.findMany({
     where: {
-      cityId: city.id,
-      AND,
+      date: {
+        gte: fromDate,
+        lte: toDate,
+      },
+      city: {
+        slug: citySlug,
+      },
     },
   });
-
-  const prayerTimesByMonthAndYear = times.filter((time) => {
-    const prayerTime = new Date(time.date);
-    return prayerTime.getMonth() === date.getMonth();
-  });
-
-  return {
-    ...province,
-    times: prayerTimesByMonthAndYear,
-  };
+  return times;
 };
 
 const getPrayer = async ({

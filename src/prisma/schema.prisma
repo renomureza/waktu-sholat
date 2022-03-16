@@ -46,7 +46,7 @@ type Time {
 
 model Prayer {
   id            String      @id @default(auto()) @map("_id") @db.ObjectId
-  date          String
+  date          DateTime
   time          Time
   city          City        @relation(fields: [cityId], references: [id])
   cityId        String      @db.ObjectId

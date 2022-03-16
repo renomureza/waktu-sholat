@@ -33,7 +33,11 @@ const getCity = async (provinceSlug, citySlug) => {
 };
 
 const findNearestLocation = async (latitude, longitude) => {
-  const provinces = await getProvinces();
+  const provinces = await prismaClient.province.findMany({
+    include: {
+      cities: true,
+    },
+  });
 
   const locations = [];
 

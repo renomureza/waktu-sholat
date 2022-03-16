@@ -53,7 +53,7 @@ const createPrayersTimes = async () => {
 
         const prayerData = JSON.parse(await fs.readFile(pathToDataFile));
         const refactorePrayerData = prayerData.times.map((time) => ({
-          date: time.date,
+          date: new Date(time.date),
           time: time.prayer,
           cityId: city.id,
         }));
@@ -67,8 +67,8 @@ const createPrayersTimes = async () => {
 };
 
 const toMongo = async () => {
-  await createProvinces();
-  await createCities();
+  // await createProvinces();
+  // await createCities();
   await createPrayersTimes();
 };
 
