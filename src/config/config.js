@@ -6,7 +6,7 @@ dotenv.config({ path: path.resolve(".env") });
 const config = {
   baseUrl: process.env.BASE_URL || "http://localhost:3000",
   port: process.env.PORT || 3000,
-  nodeEnv: process.NODE_ENV || "development",
+  nodeEnv: process.env.NODE_ENV || "development",
 };
 
 module.exports = config;
