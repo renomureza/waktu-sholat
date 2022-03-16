@@ -1,5 +1,3 @@
-const fs = require("fs/promises");
-const path = require("path");
 const { find: findTimeZone } = require("geo-tz");
 const { isValidLongitude, isValidLatitude } = require("../utils/utility");
 const ApiError = require("../utils/ApiError");
