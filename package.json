@@ -5,9 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon .",
-    "scrape": "node .",
-    "refactor": "node ./scripts/refactor.js"
+    "dev": "nodemon ."
   },
   "dependencies": {
     "compression": "^1.7.4",
