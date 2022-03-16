@@ -5,9 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon .",
-    "generate:db": "node ./src/scripts/toMongo.js",
-    "postinstall": "npx prisma generate"
+    "dev": "nodemon ."
   },
   "dependencies": {
     "@prisma/client": "^3.11.0",
