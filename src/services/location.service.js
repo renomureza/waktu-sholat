@@ -1,27 +1,40 @@
-const provinces = require("../data/refactored/list.json");
 const ApiError = require("../utils/ApiError");
 const { countDistance } = require("../utils/geolocation");
 const httpStatusCode = require("../utils/httpStatusCode");
+const prismaClient = require("../utils/prismaClient");
 
 const getProvinces = () => {
-  return provinces.map(({ cities, ...province }) => province);
+  return prismaClient.province.findMany();
 };
 
 const getProvince = (provinceSlug) => {
-  return provinces.find((province) => province.slug === provinceSlug);
+  return prismaClient.province.findUnique({
+    where: {
+      slug: provinceSlug,
+    },
+    include: {
+      cities: true,
+    },
+  });
 };
 
-const getCity = (provinceSlug, citySlug) => {
-  const province = getProvince(provinceSlug);
+const getCity = async (provinceSlug, citySlug) => {
+  const province = await getProvince(provinceSlug);
 
   if (!province) {
     throw new ApiError(httpStatusCode.NOT_FOUND, "Province not found");
   }
 
-  return province.cities.find((city) => city.slug === citySlug);
+  return prismaClient.city.findUnique({
+    where: {
+      slug: citySlug,
+    },
+  });
 };
 
-const findNearestLocation = (latitude, longitude) => {
+const findNearestLocation = async (latitude, longitude) => {
+  const provinces = await getProvinces();
+
   const locations = [];
 
   for (const province of provinces) {

@@ -5,9 +5,10 @@ const { isValidLongitude, isValidLatitude } = require("../utils/utility");
 const ApiError = require("../utils/ApiError");
 const httpStatusCode = require("../utils/httpStatusCode");
 const locationService = require("./location.service");
+const prismaClient = require("../utils/prismaClient");
 
 const getPrayerByLocation = async (provinceSlug, citySlug) => {
-  const city = locationService.getCity(provinceSlug, citySlug);
+  const city = await locationService.getCity(provinceSlug, citySlug);
 
   if (!city) {
     throw new ApiError(httpStatusCode.NOT_FOUND, "City not found");
@@ -19,14 +20,21 @@ const getPrayerByLocation = async (provinceSlug, citySlug) => {
   )[0];
   const date = new Date(new Date().toLocaleString("en", { timeZone }));
 
-  const pathToFile = path.resolve(
-    "src/data/refactored",
-    provinceSlug,
-    citySlug,
-    `${date.getFullYear()}.json`
-  );
+  // const pathToFile = path.resolve(
+  //   "src/data/refactored",
+  //   provinceSlug,
+  //   citySlug,
+  //   `${date.getFullYear()}.json`
+  // );
 
-  const { times, ...province } = JSON.parse(await fs.readFile(pathToFile));
+  // const { times, ...province } = JSON.parse(await fs.readFile(pathToFile));
+
+  const times = await prismaClient.prayer.findMany({
+    where: {
+      cityId: city.id,
+      AND,
+    },
+  });
 
   const prayerTimesByMonthAndYear = times.filter((time) => {
     const prayerTime = new Date(time.date);
@@ -39,7 +47,7 @@ const getPrayerByLocation = async (provinceSlug, citySlug) => {
   };
 };
 
-const getPrayer = ({
+const getPrayer = async ({
   latitude,
   longitude,
   city: citySlug = "kota-jakarta",
@@ -56,7 +64,7 @@ const getPrayer = ({
     );
   }
 
-  const nearestLocation = locationService.findNearestLocation(
+  const nearestLocation = await locationService.findNearestLocation(
     latitude,
     longitude
   );

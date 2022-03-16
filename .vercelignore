@@ -1,7 +1,1 @@
-src/data/original
-README.md
-.env.example
-jsconfig.json
-node_modules
-package.json
-yarn.lock
+src/data

@@ -5,9 +5,11 @@
   "license": "MIT",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "generate:db": "node ./src/scripts/toMongo.js"
   },
   "dependencies": {
+    "@prisma/client": "^3.11.0",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
@@ -20,11 +22,15 @@
   "devDependencies": {
     "cheerio": "^1.0.0-rc.10",
     "node-libcurl": "^2.3.4",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "prisma": "^3.11.0"
   },
   "nodemonConfig": {
     "ignore": [
       "data*"
     ]
+  },
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
   }
 }

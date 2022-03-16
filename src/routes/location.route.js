@@ -1,7 +1,7 @@
 const express = require("express");
 const locationController = require("../controllers/location.controller");
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 
 router.get("/", locationController.getProvinces);
 router.get("/:province", locationController.getProvince);

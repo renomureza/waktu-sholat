@@ -1,9 +1,13 @@
 const config = require("./config/config");
 const app = require("./app");
 const logger = require("./config/logger");
+const prismaClient = require("./utils/prismaClient");
 
-const server = app.listen(config.port, () => {
-  logger.info(`server is running on port ${config.baseUrl}`);
+let server = prismaClient.$connect().then(() => {
+  logger.info("connected to MongoDB");
+  server = app.listen(config.port, () => {
+    logger.info(`server is running on port ${config.baseUrl}`);
+  });
 });
 
 const exitHandler = () => {
