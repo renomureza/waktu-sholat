@@ -16,21 +16,37 @@ const getPrayerByLocation = async (provinceSlug, citySlug) => {
     city.coordinate.latitude,
     city.coordinate.longitude
   )[0];
-  const date = new Date(new Date().toLocaleString("en", { timeZone }));
-  const fromDate = new Date(date.setDate(1));
-  const toDate = new Date(date.setMonth(date.getMonth() + 1));
+
+  const localDate = new Date().toLocaleString("en", { timeZone });
+  const date = new Date(localDate);
+  const fromDate = new Date(new Date(date.setDate(1)).setHours(0, 0, 0, 0));
+  const toDate = new Date(
+    new Date(date.setMonth(date.getMonth() + 1)).setHours(0, 0, 0, 0)
+  );
 
   const times = await prismaClient.prayer.findMany({
+    orderBy: [
+      {
+        date: "asc",
+      },
+    ],
     where: {
       date: {
         gte: fromDate,
-        lte: toDate,
+        lt: toDate,
       },
       city: {
         slug: citySlug,
       },
     },
   });
+
+  const today = times.find(
+    (time) =>
+      time.date.getTime() ===
+      new Date(new Date(localDate).setHours(0, 0, 0, 0)).getTime()
+  );
+
   return times;
 };
 
