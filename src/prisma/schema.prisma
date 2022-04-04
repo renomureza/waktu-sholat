@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Province {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  name          String 
+  slug          String      @unique
+  cities        City[]
+}
+
+type Coordinate {
+  latitude      Float
+  longitude     Float
+}
+
+model City {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  slug          String      @unique
+  province      Province    @relation(fields: [provinceId], references: [id])
+  provinceId    String      @db.ObjectId
+  coordinate    Coordinate
+  prayers       Prayer[]
+}
+
+type Time {
+  imsak         String
+  subuh         String
+  terbit        String
+  dhuha         String
+  dzuhur        String
+  ashar         String
+  maghrib       String
+  isya          String
+}
+
+model Prayer {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  date          String
+  time          Time
+  city          City        @relation(fields: [cityId], references: [id])
+  cityId        String      @db.ObjectId
+}
